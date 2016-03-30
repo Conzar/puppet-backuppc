@@ -276,16 +276,17 @@ class backuppc (
   $topdir                       = $backuppc::params::topdir,
   $collect                      = $backuppc::params::collect,
 ) inherits backuppc::params {
-  anchor{'backuppc::begin':}
+  #anchor{'backuppc::begin':}
 
   $real_incr_fill = bool2num($incr_fill)
   $real_bzfif     = bool2num($blackout_zero_files_is_fatal)
 
   class {'backuppc::server::validate':
-    require => Anchor['backuppc::begin'],
+    #require => Anchor['backuppc::begin'],
   }
 
   class {'backuppc::server::install':
+    #require => Anchor['backuppc::begin'],
     require => Class['backuppc::server::validate'],
   }
 
@@ -305,7 +306,7 @@ class backuppc (
     subscribe => Class['backuppc::server::config'],
   }
 
-  anchor{'backuppc::end':
-    require => Class['backuppc::server::service'],
-  }
+  #anchor{'backuppc::end':
+  #  require => Class['backuppc::server::service'],
+  #}
 }

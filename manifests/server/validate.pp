@@ -90,5 +90,7 @@ class backuppc::server::validate {
 
   validate_string($backuppc::apache_allow_from)
 
-  anchor{'backuppc::server::validate::end':}
+  anchor{'backuppc::server::validate::end':
+    #require => Anchor['backuppc::server::validate::begin'],
+  }
 }

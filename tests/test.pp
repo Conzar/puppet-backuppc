@@ -2,7 +2,8 @@ class { 'backuppc':
   backuppc_password => 'test1234',
   full_keep_cnt     => '[4,2,1]',
   full_age_max      => '110',
-  collect           => false,
+  collect           => true,
+  topdir            => '/backuppc',
 }
 
 # backup backuppc
