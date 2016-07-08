@@ -57,9 +57,14 @@ class backuppc::params {
  is not supported by this module")
     }
   }
-  $ssl_cert        = '/etc/ssl/certs/ssl-cert-snakeoil.pem'
-  $ssl_key         = '/etc/ssl/private/ssl-cert-snakeoil.key'
-  $ssl_chain       = undef
-  $htpasswd_apache = "${config_directory}/htpasswd"
-  $collect         = true
+  $ssl_cert               = '/etc/ssl/certs/ssl-cert-snakeoil.pem'
+  $ssl_key                = '/etc/ssl/private/ssl-cert-snakeoil.key'
+  $ssl_chain              = undef
+  $htpasswd_apache        = "${config_directory}/htpasswd"
+  $collect                = true
+  $tar_client_cmd         = "\$sshPath -q -x -n -l\
+ root \$host env LC_ALL=C \$tarPath -c -v -f - -C \$shareName+ --totals"
+  $tar_client_restore_cmd = "\$sshPath -q -x -l\
+ root \$host env LC_ALL=C \$tarPath -x -p --numeric-owner --same-owner -v -f\
+ - -C \$shareName+"
 }

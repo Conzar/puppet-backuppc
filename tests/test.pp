@@ -1,9 +1,13 @@
 class { 'backuppc':
-  backuppc_password => 'test1234',
+  backuppc_password => 'test124',
   full_keep_cnt     => '[4,2,1]',
   full_age_max      => '110',
   collect           => true,
-  topdir            => '/backuppc',
+  #topdir            => '/backuppc',
+}
+
+backuppc::server::user {'test':
+  password => 'test',
 }
 
 # backup backuppc
