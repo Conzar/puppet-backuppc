@@ -33,7 +33,9 @@ class backuppc::server::config {
 
   file { $backuppc::topdir :
     ensure  => 'directory',
-    recurse => true,
+    # can cause huge problems with puppet struggling to
+    # go through the directory
+    #recurse => true,
     owner   => 'backuppc',
     group   => $backuppc::group_apache,
     mode    => '0644',
