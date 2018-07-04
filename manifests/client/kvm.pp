@@ -6,11 +6,11 @@
 #
 # === Parameters
 #
-# [*backup_directory*]
+# @parma [String] backup_directory
 #   The directory that the vm images will be backed up to.
 #   Default: /var/lib/libvirt/images/virt-backup
 #
-# [*concurrent_mode*]
+# @param [Boolean] concurrent_mode
 #   There are two modes to run kvm backups.
 #
 #   The standard mode is where all vms are shutdown at the same time,
@@ -22,26 +22,26 @@
 #   there is minimum impact to the uptime of running vms.  Although this mode
 #   takes longer to perform.
 #
-#   Default: false
+# @param [String] schedule_minute
+#   The cron job minute to run.
 #
-# [*schedule_hour*]
+# @param [String] schedule_hour
 #   Uses the cron resource to schedule the running
-#   See: https://docs.puppetlabs.com/references/latest/type.html#cron
-#   Default: '3'  # 3 am
+#   @see https://docs.puppetlabs.com/references/latest/type.html#cron
 #
-# [*schedule_weekday*]
+# @param [String] schedule_weekday
 #   Uses cron.  This is the weekend parameter.
-#   Default: '6'  # Saturday
 #
-# [*exclude_vms*]
+# @param [Optional[String]] exclude_vms
 #   A string contains the names of the vms separated by a '|' to be excluded.
 #
 class backuppc::client::kvm (
-  $backup_directory = '/var/lib/libvirt/images/virt-backup',
-  $concurrent_mode  = false,
-  $schedule_hour    = '3',
-  $schedule_weekday = '6',
-  $exclude_vms      = undef,
+  String           $backup_directory = '/var/lib/libvirt/images/virt-backup',
+  Boolean          $concurrent_mode  = false,
+  String           $schedule_minute  = '5',
+  String           $schedule_hour    = '3',
+  String           $schedule_weekday = '6',
+  Optional[String] $exclude_vms      = undef,
   ) {
   anchor {'backuppc::client::kvm::begin': }
 
@@ -82,6 +82,7 @@ class backuppc::client::kvm (
   # currenty set to
   cron {'kvm_backups':
     command => "${clean} && ${command} ${command_args}",
+    minute  => $schedule_minute,
     hour    => $schedule_hour,
     weekday => $schedule_weekday,
     require => File[$backup_directory],
